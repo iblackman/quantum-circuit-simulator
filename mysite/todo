@@ -1,0 +1,15 @@
++adicionar portas faltantes, swap, root swap, not square
++adicionar opcao para ter mais circuitos
+-adicionar opcao para zerar circuito 
+    ****tem q fazer alguma logica para ajeitar os iD das divs apos a exclusao
+
++possibilitar a existencia de um circuito muito extenso (talvez implementando um frame ou algo do tipo)
++colocar input para receber o tempo de cada porta
++fazer com que possa alterar o tamanho do circuito (numero de portas existentes em um circuito)
+
+-fazer funcionalidade do xnot (ligar com outro circuito)
+-alterar o limite das portas do circuito, esta limitando em 41 ai quebra a linha
+-colocar a parte de montagem dos circuitos para a direita
+-estudar latex e bibtex
+-procurar por alguma coisa similar ao github para colocar o projeto
+
