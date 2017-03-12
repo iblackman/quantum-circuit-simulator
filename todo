@@ -7,9 +7,14 @@
 +colocar input para receber o tempo de cada porta
 +fazer com que possa alterar o tamanho do circuito (numero de portas existentes em um circuito)
 
--fazer funcionalidade do xnot (ligar com outro circuito)
+-*fazer funcionalidade do xnot (ligar com outro circuito)
+	finalizar, fazer tratamento quando e substituido
+	poder clicar em qual circuito quer conectar(pensando em pegar apenas o circuito q for clicado, nao necessariamente a porta exata)
+	arrumar o codigo para receber como paramentro quais portas sao de 2bits
+	colocar para criar id na div gerada em funcao da coluna, linha1 e linha2 para facilitar exclusao
 -alterar o limite das portas do circuito, esta limitando em 41 ai quebra a linha
 -colocar a parte de montagem dos circuitos para a direita
 -estudar latex e bibtex
 -procurar por alguma coisa similar ao github para colocar o projeto
+	Testar conta com email UFF para ter repositorio privado
 
