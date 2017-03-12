@@ -10,55 +10,62 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     </head>
     <body>
-    	<h2>Simulador</h2>
-    	<p>Preencha com o tempo de cada porta.</p>
-     	<!-- cria todas as portas passadas como parametro na view como variavel arrPortas -->
-    	<div style="">
-    		{%for porta in arrPortas %}
-    			<div id="porta{{ porta }}" class="porta-tempo">
-    				<img src="{% static 'simulador/media/' %}{{ porta }}.jpg" width="40" height="40">
-    				<input type="number" name="input-{{ porta }}" alt="porta {{ porta }}" required="required" value="0"/>
-    				<span>ms</span>
-    			</div>
-    		{% endfor %}
-    	</div>
-    	<p>Arraste as portas para formar o circuito desejado.</p>
-            <!-- cria todas as portas passadas como parametro na view como variavel arrPortas -->
-    	<div class="drag-portas">
-    		{%for porta in arrPortas %}
-    			<div id="porta{{ porta }}" class="porta">
-    			  <img src="{% static 'simulador/media/' %}{{ porta }}.jpg" draggable="true" ondragstart="drag(event)" id="drag{{ porta }}" value="{{ porta }}" width="40" height="40">
-    			</div>
-    		{% endfor %}
-    	</div>
+        <div class="row">
+        	<h2>Simulador</h2>
+            <div class="left">
+            	<p>Preencha com o tempo de cada porta.</p>
+             	<!-- cria todas as portas passadas como parametro na view como variavel arrPortas -->
+            	<div style="">
+            		{%for porta in arrPortas %}
+            			<div id="porta{{ porta }}" class="porta-tempo">
+            				<img src="{% static 'simulador/media/' %}{{ porta }}.jpg" width="40" height="40">
+            				<input type="number" name="input-{{ porta }}" alt="porta {{ porta }}" required="required" value="0"/>
+            				<span>ms</span>
+            			</div>
+            		{% endfor %}
+            	</div>
+            </div>
+            <div class="right">
+            	<p>Arraste as portas para formar o circuito desejado.</p>
+                    <!-- cria todas as portas passadas como parametro na view como variavel arrPortas -->
+            	<div class="drag-portas">
+            		{%for porta in arrPortas %}
+            			<div id="porta{{ porta }}" class="porta">
+            			  <img src="{% static 'simulador/media/' %}{{ porta }}.jpg" draggable="true" ondragstart="drag(event)" id="drag{{ porta }}" value="{{ porta }}" width="40" height="40">
+            			</div>
+            		{% endfor %}
+            	</div>
 
-    	<div style="clear:left">
-    		<p><br>Circuitos </p>
-    	</div>
+            	<div >
+            		<p><br>Circuitos </p>
+            	</div>
 
-    	<div class="container-outer" id="container-outer">
-    		<div id="circuitos" class="circuitos">
-    			<div class="c-container-original" id="container-original">
-    			<!-- Cria um circuito q aceita o drop das portas com o tamanho passado pela view -->
-    			{% for i in numMaxPortas %}
-    				<div name="c-porta{{ i }}" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="{{ i }}">
-    					<!-- utiliza a imagem da portaDefault passada como parametro pela view -->
-    					<img src="{% static 'simulador/media/' %}{{ portaDefault }}.jpg" draggable="true" ondragstart="drag(event)" id="drag{{ portaDefault }}" value="{{ portaDefault }}" width="40" height="40">
-    						
-    				</div>
-    			{% endfor %}
-    				<a href="#" onclick="remove(event)">Remover</a>		
-    			</div>
-    		</div>
-    	</div>
-            <!-- Ajusta a width da div circuitos dependendo do numero maximo de portas na div container-original -->
-            <script>
-    		adjustCircuitWidth();
-    	</script>
+            	<div class="container-outer" id="container-outer">
+            		<div id="circuitos" class="circuitos">
+            			<div class="c-container-original" id="container-original">
+            			<!-- Cria um circuito q aceita o drop das portas com o tamanho passado pela view -->
+            			{% for i in numMaxPortas %}
+            				<div name="c-porta{{ i }}" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="{{ i }}">
+            					<!-- utiliza a imagem da portaDefault passada como parametro pela view -->
+            					<img src="{% static 'simulador/media/' %}{{ portaDefault }}.jpg" draggable="true" ondragstart="drag(event)" id="drag{{ portaDefault }}" value="{{ portaDefault }}" width="40" height="40">
+            						
+            				</div>
+            			{% endfor %}
+            				<a class="button red" onclick="remove(event)">Remover</a>		
+            			</div>
+            		</div>
+            	</div>
 
-    	<div class="b-novo-circuito" >
-    		<a href="#" onclick="duplicate()">Novo circuito</a>
-    	</div>
+                <!-- Ajusta a width da div circuitos dependendo do numero maximo de portas na div container-original -->
+                <script>
+                    adjustCircuitWidth();
+            	</script>
+
+            	<div class="b-novo-circuito" >
+            		<a class="button blue" onclick="duplicate()">Novo circuito</a>
+            	</div>
+            </div>
+        </div>
     </body>
 </html>
 
