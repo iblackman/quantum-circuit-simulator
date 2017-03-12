@@ -1,0 +1,58 @@
+div.c-porta {
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin: 0px;
+    padding: 1px;
+    border: 0px solid black;
+}
+
+div.porta {
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin: 0px;
+    padding: 4px;
+}
+
+div.porta-tempo {
+    margin: 0px;
+    padding: 4px;
+}
+
+div.porta-tempo input {
+    vertical-align: top;
+    width: 50px;
+}
+
+div.porta-tempo span {
+    vertical-align: top;
+}
+
+div.c-container-original {
+    display: none;
+    clear: left;
+    padding: 4px;
+}
+
+div.c-container {
+    clear: left;
+    padding: 4px;
+}
+
+div.b-novo-circuito {
+    clear: left;
+    padding: 4px;
+}
+
+div.container-outer {
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 500px;
+    height: 10px;
+    clear: left;
+}
+
+div.circuitos {
+    clear: left;
+}
