@@ -33,26 +33,39 @@ function dropCopy(ev) {
 
     var nodeCopyValue = $(nodeCopy).attr("value");
 
+    var col = getElemntCol(ev.currentTarget);
+    var lin1 = getElementLin(ev.currentTarget);
+    //caso tenha q ligar
     if(nodeCopyValue == "not" || nodeCopyValue == "sw") {
-        var col = $(ev.currentTarget).attr("value");
-        var lin1 = $(ev.currentTarget).parent().index();
-        var lin2 = waitForClick();
+        var lin2 = getCircuitToLink();
         var pos1 = $(ev.currentTarget).position();
         
         if(lin1 == lin2) {
             reset = true
+            alert("Porta arrastada para o mesmo circuito da conexao, por favor mude um dos dois.");
         } else {
             var pos2 = $(getCircuitElement(lin2, col)).position();
             //desenha linha
-            connect($(ev.currentTarget), getCircuitElement(lin2, col), "black", 1);
+            var valConex = lin1+"-"+lin2+"-"+col;
+            connect($(ev.currentTarget), getCircuitElement(lin2, col), "black", 1, valConex);
             placePoint(lin2, col);
         }
     }
-
+    //caso tentou ligar com a mesma linha do circuito cancela
     if(reset){
         ev.currentTarget.innerHTML = '';
-        ev.currentTarget.appendChild(preNodeCopy);
+        ev.currentTarget.appendChild(preNodeCopy[0]);
     }
+
+    //se a antiga porta era uma de bit duplo deve limpar sua conexao
+    if(prevValue == "not" || prevValue == "sw"){
+    	console.log("tem q apagar conexao e ponto");
+    	limparConexao(lin1, col, 0);
+    }else if(prevValue == "point"){
+    	console.log("tem q apagar conexao e porta");
+    	limparConexao(lin1, col, 1);
+    }
+
 }
 //adiciona um novo circuito, que 'e apenas uma copia do circuito original
 function duplicate() {
@@ -67,6 +80,8 @@ function duplicate() {
     clone.id = 'container' + index;
     clone.className = 'c-container';
     divCircuitos.appendChild(clone);
+    //ajusta numeracao
+    renumeraCircuitos();
 }
 //remove circuito onde houve o click
 function remove(ev) {
@@ -76,6 +91,32 @@ function remove(ev) {
     decreaseContainer($('.c-container-original').outerHeight());
     //exclui circuito
     ev.currentTarget.parentElement.remove();
+    //ajusta numeracao
+    renumeraCircuitos();
+}
+//a partir da col e linha deleta a conexao e o ponto ou a porta
+function limparConexao(lin, col, type){
+	$('.conexao-circuito').each(function(){
+		var str = $(this).attr('value');
+		var strArray = str.split('-');
+		if(type){//substituiram o ponto, tenho que apagar a porta
+			if(strArray[1] == lin && strArray[2] == col){
+				placeLine(strArray[0],col);
+				$(this).remove();
+			}
+		}else{//substituiram a porta, tenho que apagar o ponto
+			if(strArray[0] == lin && strArray[2] == col){
+				placeLine(strArray[1],col);
+				$(this).remove();
+			}
+		}
+	});
+}
+//refaz a numeracao dos circuitos
+function renumeraCircuitos(){
+	$("#circuitos .c-container").each(function(index){
+		$(this).find("span").html(index + 1);
+	});
 }
 //aumenta a altura do container dos circuitos
 function increaseContainer(h) {
@@ -89,18 +130,43 @@ function decreaseContainer(h) {
 function adjustCircuitWidth() {
     $("#circuitos").width($("#container-original").outerWidth());
 }
-//para capturar o click no proximo elemento
-function waitForClick() {
-    return 2;
+//retorna o circuito a ser linkado em funcao do valor do input
+function getCircuitToLink() {
+	var circ = $("#link-to-circuit").val();
+	//checa se existe a linha, caso contrario pega a mais proxima
+	var count = $("#circuitos").children().length - 1;
+	if(circ < 1){
+		circ = 1;
+	}else if(circ > count){
+		circ = count;
+	}
+    return circ;
 }
 //retorna o elemento do circuito utilizando os paramentros de ciruito (lin) e porta (col)
 function getCircuitElement(lin, col){
-    return $($("#circuitos").children().get(lin)).children().get(col);
+    return $($("#circuitos").children().get(lin)).children("div").get(col);
 }
+//retorna a coluna do elemento droppable passado
+function getElemntCol(elem){
+	return $(elem).attr("value");
+}
+//retorna a linha do elemento droppable passado
+function getElementLin(elem){
+	return $(elem).parent().index();
+}
+//coloca o ponto em funcao da linha e coluna passadas
 function placePoint(lin, col) {
-    var original = document.getElementById('dragpoint');
+    placePorta(lin,col,'dragpoint');
+}
+//coloca o linha em funcao da linha e coluna passadas
+function placeLine(lin, col) {
+    placePorta(lin,col,'dragline');
+}
+//coloca a porta passada em funcao da linha e coluna
+function placePorta(lin,col,porta){
+	var original = document.getElementById(porta);
     var clone = original.cloneNode(true);
-    var dest = $($("#circuitos").children().get(lin)).children().get(col);
+    var dest = $($("#circuitos").children().get(lin)).children("div").get(col);
 
     dest.innerHTML = '';
 
@@ -117,7 +183,7 @@ function getOffset( el ) {
         height: $(el).height()
     };
 }
-function connect(div1, div2, color, thickness) { // draw a line connecting elements
+function connect(div1, div2, color, thickness, valConex) { // draw a line connecting elements
     var off1 = getOffset(div1);
     var off2 = getOffset(div2);
     // bottom right
@@ -134,7 +200,7 @@ function connect(div1, div2, color, thickness) { // draw a line connecting eleme
     // angle
     var angle = Math.atan2((y1-y2),(x1-x2))*(180/Math.PI);
     // make hr
-    var htmlLine = "<div style='padding:0px; margin:0px; height:" + thickness + "px; background-color:" + color + "; line-height:1px; position:absolute; left:" + cx + "px; top:" + cy + "px; width:" + length + "px; -moz-transform:rotate(" + angle + "deg); -webkit-transform:rotate(" + angle + "deg); -o-transform:rotate(" + angle + "deg); -ms-transform:rotate(" + angle + "deg); transform:rotate(" + angle + "deg);' />";
+    var htmlLine = "<div class='conexao-circuito' value='"+valConex+"' style='padding:0px; margin:0px; height:" + thickness + "px; background-color:" + color + "; line-height:1px; position:absolute; left:" + cx + "px; top:" + cy + "px; width:" + length + "px; -moz-transform:rotate(" + angle + "deg); -webkit-transform:rotate(" + angle + "deg); -o-transform:rotate(" + angle + "deg); -ms-transform:rotate(" + angle + "deg); transform:rotate(" + angle + "deg);' />";
     //
     // alert(htmlLine);
     document.body.innerHTML += htmlLine;
