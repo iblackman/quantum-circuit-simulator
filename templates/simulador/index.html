@@ -37,13 +37,16 @@
             	</div>
 
             	<div >
-            		<p><br>Circuitos </p>
+            		<p><br>Circuitos<br></p>
+                    <label for="link-to-circuit">Circuito a ser conectado: </label>
+                    <input type="number" name="link-to-circuit" id="link-to-circuit" required="required" value="1"/>
             	</div>
 
             	<div class="container-outer" id="container-outer">
             		<div id="circuitos" class="circuitos">
             			<div class="c-container-original" id="container-original">
             			<!-- Cria um circuito q aceita o drop das portas com o tamanho passado pela view -->
+                        <span>#</span>
             			{% for i in numMaxPortas %}
             				<div name="c-porta{{ i }}" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="{{ i }}">
             					<!-- utiliza a imagem da portaDefault passada como parametro pela view -->

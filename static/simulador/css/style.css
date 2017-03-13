@@ -53,6 +53,10 @@ div.c-container {
     padding: 4px;
 }
 
+div.c-container span{
+    float: left;
+}
+
 div.b-novo-circuito {
     /*clear: left;*/
     padding: 4px;
