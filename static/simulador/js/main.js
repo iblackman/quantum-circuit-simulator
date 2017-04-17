@@ -205,3 +205,50 @@ function connect(div1, div2, color, thickness, valConex) { // draw a line connec
     // alert(htmlLine);
     document.body.innerHTML += htmlLine;
 }
+
+//calcular o circuito
+function calcular(url){
+	var data = [];
+	var stData = [];
+	var msg = "";
+	if($("#circuitos .c-container").length > 0){
+		$("#circuitos .c-container").each(function(index){
+			var circuito = [];
+			var stCircuit = "";
+			var value;
+			$(this).find(".c-porta").each(function(){
+				value = $(this).find("img").attr('value');
+				circuito.push(value);
+				stCircuit += value + ",";
+				value = null;
+			})
+			console.log(circuito);
+			data[index] = circuito;
+			//data[index] = stCircuit;
+		});
+		//****checar se consigo interar entre os elementos de data mesmo sendo array
+		console.log(data);
+		console.log(data[0]);
+		$.ajax({
+			url: 'ajax/calcular/',
+			data: {
+				'data' : data
+			},
+			method: 'POST',
+			dataType: 'json',
+			success: function(response){
+				console.log("Success");
+				var tes = response.msg[0];
+				console.log(tes);
+				msg = tes + "";
+				console.log(response);
+			},
+			fail: function(response){
+				console.log("Fail");
+			}
+		});
+	}else{
+		msg = "Crie ao menos um circuito e clique em Calcular"
+	}
+	$('.resultado-circuito').html(msg);
+}
