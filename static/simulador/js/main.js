@@ -207,26 +207,16 @@ function connect(div1, div2, color, thickness, valConex) { // draw a line connec
 }
 
 //calcular o circuito
-function calcular(url){
+function calcular(){
 	var data = [];
-	var stData = [];
 	var msg = "";
 	if($("#circuitos .c-container").length > 0){
-		$("#circuitos .c-container").each(function(index){
-			var circuito = [];
-			var stCircuit = "";
-			var value;
-			$(this).find(".c-porta").each(function(){
-				value = $(this).find("img").attr('value');
-				circuito.push(value);
-				stCircuit += value + ",";
-				value = null;
-			})
-			console.log(circuito);
-			data[index] = circuito;
-			//data[index] = stCircuit;
-		});
-		//****checar se consigo interar entre os elementos de data mesmo sendo array
+		// Monta array dos circuitos
+		data = getCircuitos();
+		// cacula tempo de execucao com base nos inputs
+		var dataTempo = calculaTempo();
+		var strTempo = printTempo(dataTempo.data);
+
 		console.log(data);
 		console.log(data[0]);
 		$.ajax({
@@ -238,10 +228,11 @@ function calcular(url){
 			dataType: 'json',
 			success: function(response){
 				console.log("Success");
-				var tes = response.msg[0];
+				var tes = response.msg;
 				console.log(tes);
-				msg = tes + "";
+				msg = tes;
 				console.log(response);
+				$('.resultado-circuito').html(msg + "<br/><br/>"+ strTempo +"Tempo maximo estimado: " + dataTempo.maxTempo + "ms");
 			},
 			fail: function(response){
 				console.log("Fail");
@@ -249,6 +240,26 @@ function calcular(url){
 		});
 	}else{
 		msg = "Crie ao menos um circuito e clique em Calcular"
+		$('.resultado-circuito').html(msg);
+	}
+}
+//retorna um array com cada circuito, onde cada circuito 'e um array com as portas daquele circuito'
+function getCircuitos(){
+	var data = new Object();
+	$("#circuitos .c-container").each(function(index){
+		var circuito = [];
+		var stCircuit = "";
+		var value;
+		$(this).find(".c-porta").each(function(){
+			value = $(this).find("img").attr('value');
+			circuito.push(value);
+			stCircuit += value + ",";
+			value = null;
+		});
+		data[index] = circuito;
+	});
+	return data;
+}
 //Retorna um array map com os tempos das portas
 //key => value porta
 //value => tempo no input
