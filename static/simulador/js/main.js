@@ -249,6 +249,54 @@ function calcular(url){
 		});
 	}else{
 		msg = "Crie ao menos um circuito e clique em Calcular"
+//Retorna um array map com os tempos das portas
+//key => value porta
+//value => tempo no input
+function getPortaTempos(){
+	var tempos = new Object();
+	$("div.porta-tempo input").each(function(index){
+		var alt = $(this).attr("alt");
+		var porta = alt.split(" ")[1];
+		var value = parseInt($(this).val());
+		tempos[porta] = value;
+	});
+	return tempos;
+}
+//calcula o maior tempo dentre todos os circuitos
+//tambem quis aproveitar para montar uma estrutura com os tempos para facilitar a alteracao dele quando existe dependencia (porta 2-bits, onde um tem q esperar o outro)
+function calculaTempo(){
+	var tempos = getPortaTempos();
+	var maxTempo = 0;
+	var arrTempos = new Array();
+	//itera entre os circuitos
+	$("#circuitos .c-container").each(function(index){
+		var cTempo = 0;
+		//calcula o tempo total do circuito
+		arrTempos[index] = [];
+		$(this).find(".c-porta").each(function(){
+			var value = $(this).find("img").attr('value');
+			//tempo da porta
+			var pTempo = tempos[value];
+			cTempo += pTempo;
+			arrTempos[index].push(cTempo);
+		});
+		//armazena valor maximo
+		if (cTempo > maxTempo){
+			maxTempo = cTempo;
+		}
+	});
+	res = {"maxTempo" : maxTempo,
+			"data" : arrTempos};
+	return res;
+}
+//gera a string do array de tempo passado
+function printTempo(data){
+	var res = "";
+	for (var i = 0; i < data.length; i++){
+		for (var j = 0; j < data[i].length; j++){
+			res += " => " + data[i][j];
+		}
+		res += "<br/>";
 	}
-	$('.resultado-circuito').html(msg);
+	return res;
 }
