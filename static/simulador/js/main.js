@@ -86,13 +86,35 @@ function duplicate() {
 //remove circuito onde houve o click
 function remove(ev) {
     ev.preventDefault();
-
+    //limpa todos as portas do circuito, para cancelar as conexoes
+    resetarCircuito(ev.currentTarget);
     //diminui o tamanho da div
     decreaseContainer($('.c-container-original').outerHeight());
     //exclui circuito
     ev.currentTarget.parentElement.remove();
     //ajusta numeracao
     renumeraCircuitos();
+}
+//reseta circuito, tudo line
+function resetarCircuito(elem){
+	var circuit = $(elem.parentElement);
+	var len = $(circuit).children(".c-porta").length;
+	var lin = $(circuit).index();
+	$(circuit).find(".c-porta").each(function(){
+		var porta = $(this).find("img").attr("value");
+		var col = $(this).attr("value");
+		//console.log(col+" - "+lin+" - "+porta);
+		//limpa conexao dos elementos
+		if(porta == "not" || porta == "sw"){
+	    	//console.log("tem q apagar conexao e ponto");
+	    	limparConexao(lin, col, 0);
+	    }else if(porta == "point"){
+	    	//console.log("tem q apagar conexao e porta");
+	    	limparConexao(lin, col, 1);
+	    }
+	});
+	
+	console.log(len);
 }
 //a partir da col e linha deleta a conexao e o ponto ou a porta
 function limparConexao(lin, col, type){
