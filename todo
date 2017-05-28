@@ -13,7 +13,8 @@
 	-arrumar o codigo para receber como paramentro quais portas sao de 2bits
 	+colocar para criar id na div gerada em funcao da coluna, linha1 e linha2 para facilitar exclusao
 	+fazer tratamento quando colocam porta em cima do ponto ou da porta de 2bits
-	-fazer tratamento quando o circuito do ponto ou da porta eh excluido
+	+fazer tratamento quando o circuito do ponto ou da porta eh excluido
+	  +pode tentar aplicar a linha a todas as portas (ja esta implementado essa retirada) e ai excluir o circuito
 -alterar o limite das portas do circuito, esta limitando em 41 ai quebra a linha
 +colocar a parte de montagem dos circuitos para a direita
 -estudar latex e bibtex
@@ -30,3 +31,10 @@
   +testar transformacoes
   -fazer transformacoes por circuito
   -fazer transformacoes com portas de 2bits
+
+
+
+ Duvidas Monografia
+ -Minha descricao está muito tecnica? ou devo detalhar mais ainda os simuladores já existentes
+ -Apenas esses dois são suficientes?
+ -Acho que minha explicacao do Quirk pode ser mais detalhada, ou deixa do jeito que está?
