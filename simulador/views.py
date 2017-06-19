@@ -31,6 +31,11 @@ def calcular(request):
   print(json_data['data'])
   numBit = json_data['len']
   print("length: "+str(numBit))
+
+
+  ###
+  # execucao do calculo usando qubitcircuit
+  ###
   qcircuit = QubitCircuit(json_data['len'])
   #foi o jeito que achei para inicializar o circuito
   qcircuit.add_gate("SNOT", 0)
@@ -83,7 +88,9 @@ def calcular(request):
   isUtil = 0
   result = resultInitTransp(numBit)
   seqTrans = []
-
+  ###
+  # execucao do calculo usando matrizes
+  ###
   for key, gates in json_data['data'].iteritems():
     print("testando: "+key+"  -  "+str(gates))
     for gate in gates:
