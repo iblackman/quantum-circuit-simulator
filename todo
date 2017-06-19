@@ -13,8 +13,9 @@
 	-arrumar o codigo para receber como paramentro quais portas sao de 2bits
 	+colocar para criar id na div gerada em funcao da coluna, linha1 e linha2 para facilitar exclusao
 	+fazer tratamento quando colocam porta em cima do ponto ou da porta de 2bits
-	+fazer tratamento quando o circuito do ponto ou da porta eh excluido
+	-fazer tratamento quando o circuito do ponto ou da porta eh excluido
 	  +pode tentar aplicar a linha a todas as portas (ja esta implementado essa retirada) e ai excluir o circuito
+	  -ainda tem q arrumar as conexoes quando um circuito intermediario é exluido
 -alterar o limite das portas do circuito, esta limitando em 41 ai quebra a linha
 +colocar a parte de montagem dos circuitos para a direita
 -estudar latex e bibtex

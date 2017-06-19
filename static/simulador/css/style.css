@@ -82,6 +82,17 @@ div.drag-portas {
     height: 20px;
 }
 
+.resultado-circuito {
+    padding: 10px;
+}
+
+.resultado-circuito table,
+.resultado-circuito tr,
+.resultado-circuito td {
+    border: 1px solid black;
+    text-align: center;
+}
+
 .button {
     border-radius: 12px;
     padding: 5px;

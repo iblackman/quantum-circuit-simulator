@@ -232,7 +232,8 @@ function connect(div1, div2, color, thickness, valConex) { // draw a line connec
 function calcular(){
 	var data = [];
 	var msg = "";
-	if($("#circuitos .c-container").length > 0){
+	var len = $("#circuitos .c-container").length;
+	if(len > 0){
 		// Monta array dos circuitos
 		data = getCircuitos();
 		// cacula tempo de execucao com base nos inputs
@@ -243,10 +244,11 @@ function calcular(){
 		console.log(data[0]);
 		$.ajax({
 			url: 'ajax/calcular/',
-			data: {
-				'data' : data
-			},
-			method: 'POST',
+			data: JSON.stringify({
+				'data' : data,
+				'len' : len
+			}),
+			type: 'POST',
 			dataType: 'json',
 			success: function(response){
 				console.log("Success");
@@ -254,7 +256,9 @@ function calcular(){
 				console.log(tes);
 				msg = tes;
 				console.log(response);
-				$('.resultado-circuito').html(msg + "<br/><br/>"+ strTempo +"Tempo maximo estimado: " + dataTempo.maxTempo + "ms");
+				var resultTxt = printResult(response.result);
+				$('.resultado-circuito').html(response.msg + "<br/><br/>"+ strTempo +"Tempo maximo estimado: " + dataTempo.maxTempo + "ms" + "<br/><br/>"+ 
+					resultTxt );
 			},
 			fail: function(response){
 				console.log("Fail");
@@ -332,4 +336,25 @@ function printTempo(data){
 		res += "<br/>";
 	}
 	return res;
+}
+
+//gera string de resposta do resultado
+function printResult(data){
+	var res = "";
+	for (var i = 0; i < data.length; i++){
+		res += (i+1)+" -> [";
+		for (var j = 0; j < data[i].length; j++) {
+			if (j != 0){
+				res += ", ";
+			}
+			res += roundUp(data[i][j], 10000);
+		}
+		res += "]<br/>";
+	}
+	return res;
+}
+
+//arrendodar numero
+function roundUp(num, precision) {
+  return Math.ceil(num * precision) / precision
 }
