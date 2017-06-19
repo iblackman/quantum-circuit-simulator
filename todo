@@ -39,3 +39,7 @@
  -Minha descricao está muito tecnica? ou devo detalhar mais ainda os simuladores já existentes
  -Apenas esses dois são suficientes?
  -Acho que minha explicacao do Quirk pode ser mais detalhada, ou deixa do jeito que está?
+
+
+
+-Posso tentar passar os links das portas de 2 bits pelo ajax e tentar adicionar esses bits no qubitcircuit no view.py
