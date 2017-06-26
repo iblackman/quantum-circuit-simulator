@@ -25,7 +25,7 @@ SECRET_KEY = '9uw-syx)6l_q2vlux)!%dyms&3=d*o#44fm#r5hx39sdcq^m-b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','0.0.0.0']
 
 
 # Application definition
@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'mysite.urls'
+ROOT_URLCONF = 'quantum-circuit-simulator.urls'
 
 TEMPLATES = [
     {
