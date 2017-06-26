@@ -1,9 +1,9 @@
+Django==1.11.2
 asn1crypto==0.22.0
 backports.shutil-get-terminal-size==1.0.0
 cffi==1.10.0
 Cython==0.25.2
 decorator==4.0.11
-Django==1.11.2
 enum34==1.1.6
 gunicorn==19.7.1
 idna==2.5
