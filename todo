@@ -27,11 +27,11 @@
 -Fazer calculo do tempo de execucao em funcao dos inputs e das portas nos circuitos
   +fazer o calculo individual de cada circuito
   -fazer a dependencia caso um tenha uma porta de 2bits (esperar o mais demorado)
--Calcular o resultado final dos circuitos
++Calcular o resultado final dos circuitos
   +importar a lib Qutip
   +testar transformacoes
-  -fazer transformacoes por circuito
-  -fazer transformacoes com portas de 2bits
+  +fazer transformacoes por circuito
+  +fazer transformacoes com portas de 2bits
 
 
 
@@ -42,4 +42,8 @@
 
 
 
--Posso tentar passar os links das portas de 2 bits pelo ajax e tentar adicionar esses bits no qubitcircuit no view.py
++Posso tentar passar os links das portas de 2 bits pelo ajax e tentar adicionar esses bits no qubitcircuit no view.py
+
+??
+-para fazer o calculo das porcentagens com module ne
+-adicionar botoes para ja montar alguns circuitos padroes (protocolo superdenso)

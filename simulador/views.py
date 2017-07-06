@@ -32,125 +32,142 @@ def calcular(request):
   numBit = json_data['len']
   print("length: "+str(numBit))
 
-
+  connections = prepareConnections(json_data['connections'].iteritems())
+  print("---- connections ------")
+  print(connections)
+  print("---- connections END ------")
   ###
-  # execucao do calculo usando qubitcircuit
+  #  execution using qubitcircuit
   ###
-  qcircuit = QubitCircuit(json_data['len'])
-  #foi o jeito que achei para inicializar o circuito
-  qcircuit.add_gate("SNOT", 0)
-  qcircuit.add_gate("SNOT", 0)
+  qcircuit = QubitCircuit(numBit)
 
-  #iterar entre os dados passados
+  #arrumando ordem dos dados para inserir os gates corretamente
+  #os circuitos estavam vindo em ordem estranha
+  circuitList = []
   for key, gates in json_data['data'].iteritems():
     print("testando: "+key+"  -  "+str(gates))
-    for gate in gates:
-      print("Gate: "+key+" => "+gate)
+    circuitList.insert(int(key),gates)
+
+  print("-------LISTA----")
+  print(circuitList)
+  print("-----FIM LISTA ----")
+
+  for i in range(0,len(circuitList[0])):
+    for j in range(0,numBit):
+      gate = circuitList[j][i]
       if gate != "line":
-        #qcircuit.add_1q_gate("SNOT", int(key))
-        qcircuit.add_gate("SNOT", int(key))
-        #qcircuit.add_gate("RY", int(key), None, 1, "")
+        if(connections.has_key(str(i))):
+          connDict = connections.get(str(i))
+          print(connDict)
+          auxKey = j + 1
+          print(connDict.get(str(auxKey)))
+          targetAux = connDict.get(str(auxKey))
+          if targetAux != None:
+            target = j
+            control = int(targetAux)-1
+            if gate == "not":
+              qcircuit.add_gate("CNOT", targets=[target], controls=[control])
+            elif gate == "sw":
+              qcircuit.add_gate("SWAP", targets=[target,control])
+        else:
+          if gate == "x":
+            qcircuit.add_gate("RX", j, arg_value=-pi)
+          elif gate == "y":
+            qcircuit.add_gate("RY", j, arg_value=pi)
+          elif gate == "z":
+            qcircuit.add_gate("RZ", j, arg_value=pi)
+          elif gate == "h":
+            qcircuit.add_gate("SNOT", j)
 
 
-  U_list0 = qcircuit.propagators()
-  U0 = gate_sequence_product(U_list0)
-  print("-----U0--------")
-  print(U0)
-  print("----data---------")
-  print(U0.data)
-  print("----eigenenergies---------")
-  print(U0.eigenenergies())
-  print("----eigenstates---------")
-  print(U0.eigenstates())
-  print("----htmlify_matrix_str---------")
-  print(htmlify_matrix_str(U0))
-  print("----htmlify_matrix---------")
-  print(htmlify_matrix(U0))
-  print("----unit---------")
-  print(U0.unit())
-  print("------New Qobj-------")
-  Qmin = Qobj([[0],[1],[0],[0]])
-  print(Qmin)
-  print("------New Qobj Data-------")
-  print(Qmin.data)
-  print("------max Qobj-------")
-  Qmax = Qobj([[1],[0],[1],[0]])
-  print(Qmax)
-  print("------max Qobj Data-------")
-  print(Qmax.data)
-  print("-----Matrix elemet-----")
-  #print(U0.matrix_element(Qmin,Qmax))
-
-  #qcircuit.png
-
-  print("----###########---------")
-  print("----###########---------")
-  isUtil = 0
   result = resultInitTransp(numBit)
-  seqTrans = []
-  ###
-  # execucao do calculo usando matrizes
-  ###
-  for key, gates in json_data['data'].iteritems():
-    print("testando: "+key+"  -  "+str(gates))
-    for gate in gates:
-      print("Gate: "+key+" => "+gate)
-      if gate != "line":
-        seqTrans.insert(0,gate)
-        result[int(key)] = applyTransf(gate,result[int(key)])
+  
+  qInput = initializeInput(numBit)
 
-  print("-----Result------")
-  print(result)
-  print("-----to JSON------")
-  prepareResultJSON(result)
-  print("-----Fim Result----")
-  print("seqTrans %s" % (seqTrans))
-  q = Qobj([[1,0],[1,0]])
-  print(q)
-  print(q.data)
-  print(q.full())
-  print(q.norm())
-  # for i in range(0,2):
-  #   for j in range(0,2):
-  #     for k in range(0,2):
-  #       for l in range(0,2):
-  #         q = Qobj([[i,j],[k,l]])
-  #         print(q)
-  #         print(q.data)
-  #         print(q.full())
-  #         print(q.norm())
-  print("----Sigmay()---")
-  print(sigmay())
-  print("----Sigmaz()---")
-  print(sigmaz())
-  print("q * Sigmax")
-  t = q*sigmax()
-  print(t)
-  print(t.data)
-  print(t.full())
-  print(t.norm())
 
-  #test
-  print("-----init*U0--------")
-  arrayTest=[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]
-  arrayTest=[[0.707,0,0.707,0],[0,0.707,0,0.707],[0.707,0,-0.707,0],[0,0.707,0,-0.707]]
-  arrayTest=[[0.5,0.5,0.5,0.5],[0.5,-0.5,0.5,-0.5],[0.5,0.5,-0.5,-0.5],[0.5,-0.5,-0.5,0.5]]
+  U0 = gate_sequence_product(qcircuit.propagators())
 
-  '''
-  print(dado[0].split(","))
-  print(dado[0][:-1].split(",")) # split sem pegar a ultima virgula
-  '''
+  qFinal = U0*qInput
 
-  # criar funcao para aplicar as transfomacoes da lib de quantica dependendo da porta que foi utilizada
+  msg = resultToText(numBit, qFinal.full())
+  msg += "<br/>"
+  
+  if(U0 == 1):
+    msg += htmlify_matrix(qeye(2**numBit))
+  else:
+    msg += htmlify_matrix(U0)
+  ###Fim teste
 
   prepareResultJSON(result)
   data = {
-    'msg' : str(htmlify_matrix(U0)),
-    'result' : prepareResultJSON(result) #ajusta tipo de dados do result
+    'msg' : msg,#str(htmlify_matrix(U0)),
+    'result' : resultToTextSimple(numBit, qFinal.full()) 
   }
   print("**** Fim *****")
   #return json.dumps(data)
   return JsonResponse(data)
+
+###
+# initialize the column vector of inputs depending on how many bits has the circuit
+###
+def initializeInput(n):
+  ket = basis(2,0)
+  result = []
+  for i in range(0,n):
+    result.append(ket)
+  return tensor(result)
+
+###
+# receive number of bits in the circuit and Qobj after gate sequence product
+##
+def resultToText(n, arr):
+  arrSum = sum(np.absolute(arr))
+  #format int to binary with leading 0 nth times
+  strFormat = "0"+str(n)+"b"
+  result = ""
+  for i in range(0,arr.size):
+    #get value
+    aux = arr[i][0]
+    if(aux != 0j):
+      #calculate porcentage
+      porcent = abs(aux/arrSum).real[0] *100
+      #format index to binary
+      strBit = format(i, strFormat)
+      #concatenate result
+      result += str(aux) + " |" + strBit + "> " + str(porcent) + "%<br/>"
+  return result
+
+###
+# Similar to function resultToText, but doesnt bring the value
+###
+def resultToTextSimple(n, arr):
+  arrSum = sum(arr)
+  #format int to binary with leading 0 nth times
+  strFormat = "0"+str(n)+"b"
+  result = ""
+  for i in range(0,arr.size):
+    #get value
+    aux = arr[i][0]
+    if(aux != 0j):
+      #calculate porcentage
+      porcent = (aux/arrSum).real[0] *100
+      #format index to binary
+      strBit = format(i, strFormat)
+      #concatenate result
+      result += " |" + strBit + "> " + str(porcent) + "%<br/>"
+  return result
+
+###
+# returns a array with connections 
+###
+def prepareConnections(arr):
+  result = {}
+  for key, value in arr:
+    aux = value.split("-")
+    result[aux[2]] = {aux[0]:aux[1]}
+    #result.append()
+  return result
+
 
 def applyTransf(strGate, qubit):
   if strGate == "x":

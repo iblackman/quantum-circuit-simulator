@@ -236,6 +236,9 @@ function calcular(){
 	if(len > 0){
 		// Monta array dos circuitos
 		data = getCircuitos();
+		// monta array das connections
+		connections = getConnections()
+		console.log(connections);
 		// cacula tempo de execucao com base nos inputs
 		var dataTempo = calculaTempo();
 		var strTempo = printTempo(dataTempo.data);
@@ -246,19 +249,17 @@ function calcular(){
 			url: 'ajax/calcular/',
 			data: JSON.stringify({
 				'data' : data,
-				'len' : len
+				'len' : len,
+				'connections' : connections
 			}),
 			type: 'POST',
 			dataType: 'json',
 			success: function(response){
 				console.log("Success");
-				var tes = response.msg;
-				console.log(tes);
-				msg = tes;
 				console.log(response);
-				var resultTxt = printResult(response.result);
+
 				$('.resultado-circuito').html(response.msg + "<br/><br/>"+ strTempo +"Tempo maximo estimado: " + dataTempo.maxTempo + "ms" + "<br/><br/>"+ 
-					resultTxt );
+					response.result );
 			},
 			fail: function(response){
 				console.log("Fail");
@@ -283,6 +284,14 @@ function getCircuitos(){
 			value = null;
 		});
 		data[index] = circuito;
+	});
+	return data;
+}
+//retorna um array com as connections
+function getConnections(){
+	var data = new Object();
+	$(".conexao-circuito").each(function(index){
+		data[index] = $(this).attr("value");
 	});
 	return data;
 }
