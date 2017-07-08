@@ -265,7 +265,9 @@ function calcular(){
 			}
 		});
 	}else{
-		msg = "Crie ao menos um circuito e clique em Calcular"
+		msg = 'Crie um circuito com pelo menos 1 qubit. Para isso clique em "<b>Adicionar Bit</b>" e arraste as portas para montar o circuito. '
+		msg += '<br/>Quando finalizado clique em "<b>Calcular</b>".'
+		msg += '<br/>Ou então basta clicar em um dos botões "<b>Superdenso</b>" para carregar um circuito já montado.'
 		$('.resultado-circuito .resultado').html(msg);
 		hideMatriz();
 		$(".button.show").hide();
