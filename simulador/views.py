@@ -17,7 +17,7 @@ def index(request, numPortas = 0):
     n = num
   else:
     n = 10
-  context = {'arrPortas':['h','x','i','y','z','not','sr','sw','point','line'],
+  context = {'arrPortas':['h','x','y','z','not','sr','sw','point','line'],
     'numMaxPortas': range(n),
     'portaDefault': 'line',
   }
@@ -28,14 +28,10 @@ def index(request, numPortas = 0):
 def calcular(request):
   print("***** Inicio *****")
   json_data = json_loads_byteified(request.body)
-  print(json_data['data'])
+  
   numBit = json_data['len']
-  print("length: "+str(numBit))
 
   connections = prepareConnections(json_data['connections'].iteritems())
-  print("---- connections ------")
-  print(connections)
-  print("---- connections END ------")
   ###
   #  execution using qubitcircuit
   ###
@@ -45,12 +41,8 @@ def calcular(request):
   #os circuitos estavam vindo em ordem estranha
   circuitList = []
   for key, gates in json_data['data'].iteritems():
-    print("testando: "+key+"  -  "+str(gates))
     circuitList.insert(int(key),gates)
 
-  print("-------LISTA----")
-  print(circuitList)
-  print("-----FIM LISTA ----")
 
   for i in range(0,len(circuitList[0])):
     for j in range(0,numBit):
@@ -58,9 +50,7 @@ def calcular(request):
       if gate != "line":
         if(connections.has_key(str(i))):
           connDict = connections.get(str(i))
-          print(connDict)
           auxKey = j + 1
-          print(connDict.get(str(auxKey)))
           targetAux = connDict.get(str(auxKey))
           if targetAux != None:
             target = j
@@ -93,7 +83,8 @@ def calcular(request):
 
   msg = resultToText(numBit, qFinal.full())
   msg += "<br/>"
-  
+  #coloquei isso prq nao quero trazer o resultado com o numero complexo, entao o result ja e suficiente
+  msg =  ""
   if(U0 == 1):
     msg += htmlify_matrix(qeye(2**numBit))
   else:
@@ -156,7 +147,7 @@ def resultToTextSimple(n, arr):
       #format index to binary
       strBit = format(i, strFormat)
       #concatenate result
-      result += " |" + strBit + "> " + str(porcent) + "%<br/>"
+      result += " |" + strBit + "> &nbsp;&nbsp;&nbsp;&nbsp;" + str(porcent) + "%<br/>"
   return result
 
 ###

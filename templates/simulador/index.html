@@ -66,6 +66,9 @@
 
             	<div class="b-novo-circuito" >
             		<a class="button blue" onclick="duplicate()">Novo circuito</a>
+                    <a class="button green" onclick="superdenseX()">Superdenso X</a>
+                    <a class="button green" onclick="superdenseZ()">Superdenso Z</a>
+                    <a class="button green" onclick="superdenseXZ()">Superdenso XZ</a>
             	</div>
             </div>
         </div>
@@ -75,7 +78,14 @@
                 <a class="button red" onclick="calcular()">Calcular</a>
             </div>
             <div class="right resultado-circuito">
-                
+                <div class="resultado">
+                    
+                </div>
+                <div class="matrix" style="display: none">
+
+                </div>
+                <a class="button blue show" onclick="showMatriz(this)" style="display: none">Mostrar matriz</a>
+                <a class="button blue hide" onclick="hideMatriz(this)" style="display: none">Esconder matriz</a>
             </div>
         </div>
     </body>

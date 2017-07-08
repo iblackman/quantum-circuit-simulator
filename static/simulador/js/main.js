@@ -59,10 +59,10 @@ function dropCopy(ev) {
 
     //se a antiga porta era uma de bit duplo deve limpar sua conexao
     if(prevValue == "not" || prevValue == "sw" || prevValue == "sr"){
-    	console.log("tem q apagar conexao e ponto");
+    	//tem q apagar conexao e ponto
     	limparConexao(lin1, col, 0);
     }else if(prevValue == "point"){
-    	console.log("tem q apagar conexao e porta");
+    	//tem q apagar conexao e porta
     	limparConexao(lin1, col, 1);
     }
 
@@ -113,8 +113,6 @@ function resetarCircuito(elem){
 	    	limparConexao(lin, col, 1);
 	    }
 	});
-	
-	console.log(len);
 }
 //a partir da col e linha deleta a conexao e o ponto ou a porta
 function limparConexao(lin, col, type){
@@ -238,13 +236,10 @@ function calcular(){
 		data = getCircuitos();
 		// monta array das connections
 		connections = getConnections()
-		console.log(connections);
 		// cacula tempo de execucao com base nos inputs
 		var dataTempo = calculaTempo();
 		var strTempo = printTempo(dataTempo.data);
 
-		console.log(data);
-		console.log(data[0]);
 		$.ajax({
 			url: 'ajax/calcular/',
 			data: JSON.stringify({
@@ -255,11 +250,15 @@ function calcular(){
 			type: 'POST',
 			dataType: 'json',
 			success: function(response){
-				console.log("Success");
-				console.log(response);
 
-				$('.resultado-circuito').html(response.msg + "<br/><br/>"+ strTempo +"Tempo maximo estimado: " + dataTempo.maxTempo + "ms" + "<br/><br/>"+ 
-					response.result );
+				$('.resultado-circuito .resultado').html(response.result + "<br/><br/>"+ "Tempo maximo estimado: " + dataTempo.maxTempo + "ms" + "<br/><br/>");
+				$('.matrix').html(response.msg+"<br/><br/>");
+				//tratamento para nao mostrar o botao caso ja esteja mostrando a matriz
+				if(!$('.blue.button.hide').is(":visible")){
+					$('.blue.button.show').show();
+				}
+
+				//$('.resultado-circuito').html(response.msg + "<br/><br/>"+ strTempo +"Tempo maximo estimado: " + dataTempo.maxTempo + "ms" + "<br/><br/>"+ response.result );
 			},
 			fail: function(response){
 				console.log("Fail");
@@ -267,7 +266,9 @@ function calcular(){
 		});
 	}else{
 		msg = "Crie ao menos um circuito e clique em Calcular"
-		$('.resultado-circuito').html(msg);
+		$('.resultado-circuito .resultado').html(msg);
+		hideMatriz();
+		$(".button.show").hide();
 	}
 }
 //retorna um array com cada circuito, onde cada circuito 'e um array com as portas daquele circuito'
@@ -366,4 +367,51 @@ function printResult(data){
 //arrendodar numero
 function roundUp(num, precision) {
   return Math.ceil(num * precision) / precision
+}
+
+//mostra matriz, hide botao mostra e show botao esconde
+function showMatriz(elem){
+	var parent = $(elem).parent();
+	$(elem).hide();
+	parent.find(".button.hide").show();
+	parent.find(".matrix").show();
+}
+
+//esconder matriz, show botao mostra e hide botao esconde
+function hideMatriz(elem){
+	var parent = $(elem).parent();
+	$(elem).hide();
+	parent.find(".button.show").show();
+	parent.find(".matrix").hide();
+}
+
+//precisava fazer isso rapido
+//montar os circuitos superdensos
+function superdense(string, string2){
+	var html = '<div class="c-container-original" id="container-original" style="">             <span>#</span> 				<div name="c-porta0" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="0"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta1" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="1"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta2" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="2"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta3" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="3"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta4" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="4"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta5" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="5"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta6" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="6"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta7" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="7"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta8" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="8"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta9" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="9"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<a class="button red" onclick="remove(event)">Remover</a>		 			</div> 		<div class="c-container" id="container0" style=""> 			<!-- Cria um circuito q aceita o drop das portas com o tamanho passado pela view -->             <span>1</span> 			 				<div name="c-porta0" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="0"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta1" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="1"><img src="/static/simulador/media/h.jpg" draggable="false" ondragstart="drag(event)" id="newId" value="h" height="40" width="40"></div> 				<div name="c-porta2" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="2" style=""><img src="/static/simulador/media/point.jpg" draggable="false" ondragstart="drag(event)" id="newId" value="point" height="40" width="40"></div> 				 &&& 				%%% 				<div name="c-porta5" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="5" style=""><img src="/static/simulador/media/point.jpg" draggable="false" ondragstart="drag(event)" id="newId" value="point" height="40" width="40"></div> 				<div name="c-porta6" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="6"><img src="/static/simulador/media/h.jpg" draggable="false" ondragstart="drag(event)" id="newId" value="h" height="40" width="40"></div> 				<div name="c-porta7" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="7"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta8" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="8"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta9" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="9"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<a class="button red" onclick="remove(event)">Remover</a>		 			</div><div class="c-container" id="container1" style=""> 			<!-- Cria um circuito q aceita o drop das portas com o tamanho passado pela view -->             <span>2</span> 			 				<div name="c-porta0" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="0"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta1" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="1"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta2" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="2" style=""><img src="/static/simulador/media/not.jpg" draggable="false" ondragstart="drag(event)" id="newId" value="not" height="40" width="40"></div> 				<div name="c-porta3" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="3"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta4" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="4"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta5" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="5" style=""><img src="/static/simulador/media/not.jpg" draggable="false" ondragstart="drag(event)" id="newId" value="not" height="40" width="40"></div> 				<div name="c-porta6" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="6"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta7" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="7"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta8" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="8"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<div name="c-porta9" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="9"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div> 				<a class="button red" onclick="remove(event)">Remover</a>		 			</div>';
+	html = html.replace("&&&",string);
+	html = html.replace("%%%",string2);
+	$("#circuitos").html(html);
+	$('.container-outer').height(110);
+	$(".conexao-circuito").remove();
+	connect(getCircuitElement(2, 2), getCircuitElement(1, 2), "black", 1, '2-1-2');
+	connect(getCircuitElement(2, 5), getCircuitElement(1, 5), "black", 1, '2-1-5');
+}
+
+function superdenseX(){
+	var gate1 = '<div name="c-porta3" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="3"><img src="/static/simulador/media/x.jpg" draggable="false" ondragstart="drag(event)" id="newId" value="x" height="40" width="40"></div>'
+	var gate2 = '<div name="c-porta4" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="4"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div>'
+	superdense(gate1, gate2);
+}
+
+function superdenseZ(){
+	var gate1 = '<div name="c-porta3" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="3"><img src="/static/simulador/media/z.jpg" draggable="false" ondragstart="drag(event)" id="newId" value="z" height="40" width="40"></div>'
+	var gate2 = '<div name="c-porta4" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="4"> 					<!-- utiliza a imagem da portaDefault passada como parametro pela view --> 					<img src="/static/simulador/media/line.jpg" draggable="true" ondragstart="drag(event)" id="dragline" value="line" height="40" width="40"> 						 				</div>'
+	superdense(gate1, gate2);
+}
+
+function superdenseXZ(){
+	var gate1 = '<div name="c-porta3" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="3"><img src="/static/simulador/media/x.jpg" draggable="false" ondragstart="drag(event)" id="newId" value="x" height="40" width="40"></div>'
+	var gate2 = '<div name="c-porta4" class="c-porta" ondrop="dropCopy(event)" ondragover="allowDrop(event)" value="4"><img src="/static/simulador/media/z.jpg" draggable="false" ondragstart="drag(event)" id="newId" value="z" height="40" width="40"></div>'
+	superdense(gate1, gate2);
 }
