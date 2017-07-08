@@ -17,7 +17,7 @@ def index(request, numPortas = 0):
     n = num
   else:
     n = 10
-  context = {'arrPortas':['h','x','i','s','y','z','not','sr','sw','point','line'],
+  context = {'arrPortas':['h','x','i','y','z','not','sr','sw','point','line'],
     'numMaxPortas': range(n),
     'portaDefault': 'line',
   }
@@ -69,6 +69,8 @@ def calcular(request):
               qcircuit.add_gate("CNOT", targets=[target], controls=[control])
             elif gate == "sw":
               qcircuit.add_gate("SWAP", targets=[target,control])
+            elif gate == "sr":
+              qcircuit.add_gate("SQRTNOT", targets=[target], controls=[control])
         else:
           if gate == "x":
             qcircuit.add_gate("RX", j, arg_value=-pi)

@@ -36,7 +36,7 @@ function dropCopy(ev) {
     var col = getElemntCol(ev.currentTarget);
     var lin1 = getElementLin(ev.currentTarget);
     //caso tenha q ligar
-    if(nodeCopyValue == "not" || nodeCopyValue == "sw") {
+    if(nodeCopyValue == "not" || nodeCopyValue == "sw" || nodeCopyValue == "sr") {
         var lin2 = getCircuitToLink();
         var pos1 = $(ev.currentTarget).position();
         
@@ -58,7 +58,7 @@ function dropCopy(ev) {
     }
 
     //se a antiga porta era uma de bit duplo deve limpar sua conexao
-    if(prevValue == "not" || prevValue == "sw"){
+    if(prevValue == "not" || prevValue == "sw" || prevValue == "sr"){
     	console.log("tem q apagar conexao e ponto");
     	limparConexao(lin1, col, 0);
     }else if(prevValue == "point"){
@@ -105,7 +105,7 @@ function resetarCircuito(elem){
 		var col = $(this).attr("value");
 		//console.log(col+" - "+lin+" - "+porta);
 		//limpa conexao dos elementos
-		if(porta == "not" || porta == "sw"){
+		if(porta == "not" || porta == "sw" || porta == "sr"){
 	    	//console.log("tem q apagar conexao e ponto");
 	    	limparConexao(lin, col, 0);
 	    }else if(porta == "point"){
