@@ -42,7 +42,7 @@ function dropCopy(ev) {
         
         if(lin1 == lin2) {
             reset = true
-            alert("Porta arrastada para o mesmo circuito da conexao, por favor mude um dos dois.");
+            alert("Porta arrastada para o mesmo qubit da conexao, por favor mude um dos dois.");
         } else {
             var pos2 = $(getCircuitElement(lin2, col)).position();
             //desenha linha
@@ -265,7 +265,7 @@ function calcular(){
 			}
 		});
 	}else{
-		msg = 'Crie um circuito com pelo menos 1 qubit. Para isso clique em "<b>Adicionar Bit</b>" e arraste as portas para montar o circuito. '
+		msg = 'Crie um circuito com pelo menos 1 qubit. Para isso clique em "<b>Adicionar Qubit</b>" e arraste as portas para montar o circuito. '
 		msg += '<br/>Quando finalizado clique em "<b>Calcular</b>".'
 		msg += '<br/>Ou então basta clicar em um dos botões "<b>Superdenso</b>" para carregar um circuito já montado.'
 		$('.resultado-circuito .resultado').html(msg);
