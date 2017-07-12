@@ -19,7 +19,7 @@
             		{%for porta in arrPortas %}
             			<div id="porta{{ porta }}" class="porta-tempo">
             				<img src="{% static 'simulador/media/' %}{{ porta }}.jpg" width="40" height="40">
-            				<input type="number" name="input-{{ porta }}" alt="porta {{ porta }}" required="required" value="0"/>
+            				<input type="number" min="0" name="input-{{ porta }}" alt="porta {{ porta }}" required="required" value="0"/>
             				<span>ms</span>
             			</div>
             		{% endfor %}
@@ -39,7 +39,7 @@
             	<div >
             		<p><br>Circuito<br></p>
                     <label for="link-to-circuit">Qubit a ser conectado: </label>
-                    <input type="number" name="link-to-circuit" id="link-to-circuit" required="required" value="1"/>
+                    <input type="number" min=1 name="link-to-circuit" id="link-to-circuit" required="required" value="1"/>
             	</div>
 
             	<div class="container-outer" id="container-outer">
