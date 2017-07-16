@@ -114,7 +114,6 @@ def initializeInput(n):
 # receive number of bits in the circuit and Qobj after gate sequence product
 ##
 def resultToText(n, arr):
-  arrSum = sum(np.absolute(arr))
   #format int to binary with leading 0 nth times
   strFormat = "0"+str(n)+"b"
   result = ""
@@ -123,7 +122,7 @@ def resultToText(n, arr):
     aux = arr[i][0]
     if(aux != 0j):
       #calculate porcentage
-      porcent = abs(aux/arrSum).real[0] *100
+      porcent = (aux * aux) *100
       #format index to binary
       strBit = format(i, strFormat)
       #concatenate result

@@ -50,8 +50,25 @@
 
 
 Perguntas
--o que devo fazer com palavras em ingles, como por exemplo feature? deixo em italico ou tento substituir por algo em portugues?
+-o que devo fazer com palavras em ingles, como por exemplo feature? deixo em italico ou tento substituir por algo em portugues? (nome de ferramenta nao precisa)
 -Nao consegui usar o inpreceedings, da erro na compilacao, perdi um tempo vendo isso e achei melhor nao usar
+-Achei algumas coisa meio confusas no codigo superdenso, bob aplica o CNOT no \ket{\Psi}, nao deveria ser o \ket{\Psi''} que ele recebe da Eve?
+-Verificar se as imagens dos circuitos e portas q eu coloquei ao lado das equacoes deveriam entrar como imagens e aparecer na tabela de imagens
+-Coloquei em alguns lugares no capitulo sobre quantica uns numeros das paginas do livro do Mermin onde eu encontrei informacao sobre o que estava sendo falado
+-Na parte de Cáculo via AJAX, eu falo da utilizacao da QuTIp para realizar o calculo, devo fazer uma referencia a proxima sessao onde vou falar da QuTip ou apenas coloco que falaremos mais sobre na proxima sessao? ---- Nao precisa
+ 
+
+-Falar melhor, mais texto na parte de quântica, nas explicações das portas. 
+-Tirar os numeros das equacoes, so colocar nas que sao referenciadas no texto, (align*)
+-Comentar na parte do codigo superdenso falando que usam as portas citadas acima
+-Definir entre parenteses as siglas utilizadas, na primeira utitlizacao
+-tirar aspas de view e template, colocar em italico
+-colocar referencia no texto para as figuras, por exemplo, Na figura 234 pode-se ver uma captura de tela...
+-colocar todas as portas quanticas como figura,e fazer referencia, igual acima
+-Trocar nome dos botao superdenso X pra superdenso 01
+-Nos resultados colocar uma imagem de cade parte do dev (html, javascript e python, e explicar elas)
+
+
 
 
 aaoliveira1952gmail.com -- email angela revisao
