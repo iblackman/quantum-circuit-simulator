@@ -58,17 +58,20 @@ Perguntas
 -Na parte de Cáculo via AJAX, eu falo da utilizacao da QuTIp para realizar o calculo, devo fazer uma referencia a proxima sessao onde vou falar da QuTip ou apenas coloco que falaremos mais sobre na proxima sessao? ---- Nao precisa
  
 
--Falar melhor, mais texto na parte de quântica, nas explicações das portas. 
--Tirar os numeros das equacoes, so colocar nas que sao referenciadas no texto, (align*)
--Comentar na parte do codigo superdenso falando que usam as portas citadas acima
--Definir entre parenteses as siglas utilizadas, na primeira utitlizacao
--tirar aspas de view e template, colocar em italico
--colocar referencia no texto para as figuras, por exemplo, Na figura 234 pode-se ver uma captura de tela...
--colocar todas as portas quanticas como figura,e fazer referencia, igual acima
--Trocar nome dos botao superdenso X pra superdenso 01
++Falar melhor, mais texto na parte de quântica, nas explicações das portas. 
++Tirar os numeros das equacoes, so colocar nas que sao referenciadas no texto, (align*)
++Comentar na parte do codigo superdenso falando que usam as portas citadas acima
++tirar aspas de view e template, colocar em italico
++colocar referencia no texto para as figuras, por exemplo, Na figura 234 pode-se ver uma captura de tela...
++colocar todas as portas quanticas como figura,e fazer referencia, igual acima
++Trocar nome dos botao superdenso X pra superdenso 01
 -Nos resultados colocar uma imagem de cade parte do dev (html, javascript e python, e explicar elas)
-
+-italico nas palavras em ingles
+-Definir entre parenteses as siglas utilizadas, na primeira utitlizacao
+-Conclusao, adicionar
 
 
 
 aaoliveira1952gmail.com -- email angela revisao
+
+4a5982af3e66a7ec5fddbd36c809726e2ed3db41

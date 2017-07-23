@@ -255,7 +255,8 @@ function calcular(){
 				$('.matrix').html(response.msg+"<br/><br/>");
 				//tratamento para nao mostrar o botao caso ja esteja mostrando a matriz
 				if(!$('.blue.button.hide').is(":visible")){
-					$('.blue.button.show').show();
+					//comentado para nao mostrar a matriz
+					//$('.blue.button.show').show();
 				}
 
 				//$('.resultado-circuito').html(response.msg + "<br/><br/>"+ strTempo +"Tempo maximo estimado: " + dataTempo.maxTempo + "ms" + "<br/><br/>"+ response.result );
